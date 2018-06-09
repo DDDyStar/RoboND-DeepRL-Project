@@ -135,12 +135,12 @@ namespace gazebo
 		// Create our node for camera communication
 		cameraNode->Init();
 		// TODO - Subscribe to camera topic
-		gazebo::transport::SubscriberPtr cameraSub = cameraNode->Subscribe("/gazebo/arm_world/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
+		gazebo::transport::SubscriberPtr cameraSub = cameraNode->Subscribe("/gazebo/" WORLD_NAME "/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
 
 		// Create our node for collision detection
 		collisionNode->Init();
 		// TODO - Subscribe to prop collision topic
-		gazebo::transport::SubscriberPtr collisionSub = collisionNode->Subscribe("/gazebo/arm_world/tube/link/my_contact", &ArmPlugin::onCollisionMsg, this);
+		gazebo::transport::SubscriberPtr collisionSub = collisionNode->Subscribe("/gazebo/" WORLD_NAME "/" PROP_NAME "/link/my_contact", &ArmPlugin::onCollisionMsg, this);
 
 		// Listen to the update event. This event is broadcast every simulation iteration.
 		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ArmPlugin::OnUpdate, this, _1));
