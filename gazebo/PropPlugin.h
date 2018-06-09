@@ -46,6 +46,7 @@ public:
 	virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/);
 	virtual void OnUpdate(const common::UpdateInfo & /*_info*/);
 
+	void UpdateResetPose(); // added by Muthanna
 	void ResetDynamics();
 	void Randomize();
 
