@@ -264,11 +264,20 @@ namespace gazebo
 			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM) == 0))
 			{
 				// collision reward
-				rewardHistory = REWARD_WIN;
+				rewardHistory = REWARD_LOSS;
 				newReward  = true;
 				endEpisode = true;
 				return;
-			}			
+			}
+			else
+			{
+				// no collision penalty
+				rewardHistory = REWARD_LOSS / REWARD_MULT;
+				newReward  = true;
+				endEpisode = false;
+				return;
+				
+			}
 		}
 	}
 
@@ -590,19 +599,13 @@ namespace gazebo
 
 				if( episodeFrames > 1 )
 				{
-					const float alpha = 0.3;
-					avgGoalDelta  = (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
-
-					//const float distDelta  = lastGoalDistance - distGoal;
-					//const float distThresh = 1.5f;
-					//const float epsilon    = 0.001f;
-					//const float movingAvg  = 0.0f;
-					//avgGoalDelta  = (avgGoalDelta * movingAvg) + (distDelta * (1.0f - movingAvg));
-
-					rewardHistory = avgGoalDelta;
-					
-					newReward     = true;	
+					const float alpha 	= 0.3;
+					const float distDelta  	= lastGoalDistance - distGoal;
+					avgGoalDelta  		= (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
+					rewardHistory 		= avgGoalDelta * REWARD_MULT;
+					newReward     		= true;	
 				}
+
 				lastGoalDistance = distGoal;
 			}
 		}
