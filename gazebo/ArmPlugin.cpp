@@ -264,20 +264,18 @@ namespace gazebo
 			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM) == 0))
 			{
 				// collision reward
-				rewardHistory = REWARD_LOSS;
+				rewardHistory = REWARD_WIN;
 				newReward  = true;
 				endEpisode = true;
-				return;
 			}
 			else
 			{
 				// no collision penalty
-				rewardHistory = REWARD_LOSS / REWARD_MULT;
+				rewardHistory = REWARD_LOSS * 0.01f;
 				newReward  = true;
 				endEpisode = false;
-				return;
-				
 			}
+			return;
 		}
 	}
 
