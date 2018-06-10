@@ -606,7 +606,7 @@ namespace gazebo
 					//const float movingAvg  = 0.0f;
 					//avgGoalDelta  = (avgGoalDelta * movingAvg) + (distDelta * (1.0f - movingAvg));
 
-					rewardHistory = avgGoalDelta * REWARD_MULT;
+					rewardHistory = avgGoalDelta;
 					
 					newReward     = true;	
 				}
