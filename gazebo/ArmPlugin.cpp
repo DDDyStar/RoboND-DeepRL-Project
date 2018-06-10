@@ -38,7 +38,7 @@
 #define INPUT_WIDTH   	64
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2
-#define OPTIMIZER 		"Adam"
+#define OPTIMIZER 		"Adam"	// RMSProp, Adam, AdaGrad, None.
 #define LEARNING_RATE 	0.2f
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32
@@ -51,7 +51,7 @@
 
 #define REWARD_WIN  	300.0f
 #define REWARD_LOSS 	-300.0f
-#define REWARD_MULT 	10.0f
+#define REWARD_MULT 	-25.0f
 
 // Define Object Names
 #define WORLD_NAME 		"arm_world"
@@ -602,7 +602,7 @@ namespace gazebo
 					const float distDelta  	= lastGoalDistance - distGoal;
 					avgGoalDelta  			= (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
 					rewardHistory 			= avgGoalDelta * REWARD_MULT;
-					printf("distGoal %f \n", distGoal);
+					//printf("distGoal %f \n", distGoal);
 					newReward     		= true;	
 				}
 
