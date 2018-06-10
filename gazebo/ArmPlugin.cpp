@@ -607,6 +607,7 @@ namespace gazebo
 					//avgGoalDelta  = (avgGoalDelta * movingAvg) + (distDelta * (1.0f - movingAvg));
 
 					rewardHistory = avgGoalDelta * REWARD_MULT;
+					printf("rewardHistory = %f\n", rewardHistory);
 
 					newReward     = true;	
 				}
