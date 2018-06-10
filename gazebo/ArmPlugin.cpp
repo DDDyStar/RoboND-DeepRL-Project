@@ -48,8 +48,8 @@
 
 // TODO - Define Reward Parameters
 
-#define REWARD_WIN  	500.0f
-#define REWARD_LOSS 	-500.0f
+#define REWARD_WIN  	300.0f
+#define REWARD_LOSS 	-300.0f
 #define REWARD_MULT 	10.0f
 
 // Define Object Names
