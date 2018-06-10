@@ -35,14 +35,14 @@
 
 // TODO - Tune the following hyperparameters
 
-#define INPUT_WIDTH   	64
+#define INPUT_WIDTH   	64			// Size of input will impact memory use
 #define INPUT_HEIGHT  	64
-#define NUM_ACTIONS		DOF*2
-#define OPTIMIZER 		"Adam"	// RMSProp, Adam, AdaGrad, None.
-#define LEARNING_RATE 	0.2f
+#define NUM_ACTIONS		DOF*2		// Each joint action is either decreas or increas. DOF is number of joints
+#define OPTIMIZER 		"RMSProp"	// RMSProp, Adam, AdaGrad, None.
+#define LEARNING_RATE 	0.2f		// Smaller number will slow learning but better minimize error 
 #define REPLAY_MEMORY 	10000
-#define BATCH_SIZE 		32
-#define USE_LSTM 		true
+#define BATCH_SIZE 		32			// bigger size will require more computing power.
+#define USE_LSTM 		true		// 
 #define LSTM_SIZE 		256
 #define alpha 			0.3f
 
@@ -602,7 +602,7 @@ namespace gazebo
 					const float distDelta  	= lastGoalDistance - distGoal;
 					avgGoalDelta  			= (avgGoalDelta * alpha) + (distDelta * (1.0 - alpha));
 					rewardHistory 			= (avgGoalDelta) * REWARD_MULT;
-					//printf("Reward %f \n", rewardHistory);
+					if (DEBUG) printf("Interim Reward %f \n", rewardHistory);
 					newReward     		= true;	
 				}
 
