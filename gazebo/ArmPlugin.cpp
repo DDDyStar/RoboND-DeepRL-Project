@@ -133,7 +133,7 @@ namespace gazebo
 
 		// Create DQN agent
 		if( !createAgent() ){
-			print("Error creatings DQN Agent\n");
+			printf("Error creatings DQN Agent\n");
 			return;
 		}
 
