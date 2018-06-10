@@ -38,11 +38,11 @@
 #define INPUT_WIDTH   	64			// Size of input will impact memory use
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2		// Each joint action is either decreas or increas. DOF is number of joints
-#define OPTIMIZER 		"RMSProp"	// RMSProp, Adam, AdaGrad, None.
+#define OPTIMIZER 		"RMSprop"	// RMSprop, Adam, AdaGrad, None.
 #define LEARNING_RATE 	0.2f		// Smaller number will slow learning but better minimize error 
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32			// bigger size will require more computing power.
-#define USE_LSTM 		true		// 
+#define USE_LSTM 		true		
 #define LSTM_SIZE 		256
 #define alpha 			0.3f
 
