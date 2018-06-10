@@ -602,7 +602,7 @@ namespace gazebo
 					const float distDelta  	= lastGoalDistance - distGoal;
 					avgGoalDelta  			= (avgGoalDelta * alpha) + (distDelta * (1.0 - alpha));
 					rewardHistory 			= (avgGoalDelta) * REWARD_MULT;
-					printf("Reward %f \n", rewardHistory);
+					//printf("Reward %f \n", rewardHistory);
 					newReward     		= true;	
 				}
 
