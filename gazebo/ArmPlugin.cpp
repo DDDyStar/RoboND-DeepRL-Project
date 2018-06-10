@@ -39,7 +39,7 @@
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2
 #define OPTIMIZER 		"RMSprop"
-#define LEARNING_RATE 	0.1f
+#define LEARNING_RATE 	0.3f
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32
 #define USE_LSTM 		true
