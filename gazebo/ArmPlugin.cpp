@@ -144,12 +144,12 @@ namespace gazebo
 		// Create our node for camera communication
 		cameraNode->Init();
 		// TODO - Subscribe to camera topic
-		cameraSub = cameraNode->Subscribe("/gazebo/" WORLD_NAME "/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
+		cameraSub = cameraNode->Subscribe("/gazebo/arm_world/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
 
 		// Create our node for collision detection
 		collisionNode->Init();
 		// TODO - Subscribe to prop collision topic
-		collisionSub = collisionNode->Subscribe("/gazebo/" WORLD_NAME "/" PROP_NAME "/link/my_contact", &ArmPlugin::onCollisionMsg, this);
+		collisionSub = collisionNode->Subscribe("/gazebo/arm_world/tube/tube_link/my_contact", &ArmPlugin::onCollisionMsg, this);
 
 		// Listen to the update event. This event is broadcast every simulation iteration.
 		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ArmPlugin::OnUpdate, this, _1));
@@ -444,7 +444,7 @@ namespace gazebo
 			// update the AI agent when new camera frame is ready
 			episodeFrames++;
 
-			if(DEBUG){printf("episode frame = %i\n", episodeFrames);}
+			if(DEBUG){printf("[DEBUG] episode frame = %i\n", episodeFrames);}
 
 			// reset camera ready flag
 			newState = false;
@@ -565,6 +565,8 @@ namespace gazebo
 
 			// get the bounding box for the prop object
 			const math::Box& propBBox = prop->model->GetBoundingBox();
+
+			// get gripper link name
 			physics::LinkPtr gripper  = model->GetLink(GRIP_NAME);
 
 			if( !gripper )
@@ -575,33 +577,39 @@ namespace gazebo
 
 			// get the bounding box for the gripper		
 			const math::Box& gripBBox = gripper->GetBoundingBox();
+			// Ground Threshold
 			const float groundContact = 0.05f;
 			
 			
 			// TODO - set appropriate Reward for robot hitting the ground.
-			
 			if( gripBBox.min.z <= groundContact || gripBBox.max.z <= groundContact )
 			{
 				rewardHistory = REWARD_LOSS;
 				newReward     = true;
 				endEpisode    = true;
 			}
+
 			// TODO - Issue an interim reward based on the distance to the object		
 			else
 			{
+				// calculate the distance between two bounding boxes
 				const float distGoal = BoxDistance(gripBBox, propBBox);
+
 				if( episodeFrames > 1 )
 				{
-					const float distDelta  = lastGoalDistance - distGoal;
-					const float distThresh = 1.5f;
-					const float epsilon    = 0.001f;
-					const float movingAvg  = 0.0f;
-					
-					avgGoalDelta  = (avgGoalDelta * movingAvg) + (distDelta * (1.0f - movingAvg));
+					const float alpha = 0.3;
+					avgGoalDelta  = (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
+
+					//const float distDelta  = lastGoalDistance - distGoal;
+					//const float distThresh = 1.5f;
+					//const float epsilon    = 0.001f;
+					//const float movingAvg  = 0.0f;
+					//avgGoalDelta  = (avgGoalDelta * movingAvg) + (distDelta * (1.0f - movingAvg));
+
 					rewardHistory = avgGoalDelta * REWARD_MULT;
+
 					newReward     = true;	
 				}
-
 				lastGoalDistance = distGoal;
 			}
 		}

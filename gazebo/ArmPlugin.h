@@ -76,7 +76,7 @@ namespace gazebo
 			float    jointRange[DOF][2];// min/max range of each arm joint
 			float    actionJointDelta;	// amount of offset caused to a joint by an action
 			float    actionVelDelta;	// amount of velocity offset caused to a joint by an action
-			int	    maxEpisodeLength;	// maximum number of frames to win episode (or <= 0 for unlimited)
+			int	     maxEpisodeLength;	// maximum number of frames to win episode (or <= 0 for unlimited)
 			int      episodeFrames;		// frame counter for the current episode	
 			bool     testAnimation;		// true for test animation mode
 			bool     loopAnimation;		// loop the test animation while true
@@ -84,10 +84,10 @@ namespace gazebo
 			float    resetPos[DOF];
 			float    lastGoalDistance;
 			float    avgGoalDelta;
-			int	    successfulGrabs;
-			int	    totalRuns;
+			int	     successfulGrabs;
+			int	     totalRuns;
 			int      runHistoryIdx;
-			int	    runHistoryMax;
+			int	     runHistoryMax;
 			bool     runHistory[20];
 
 			physics::ModelPtr model;
