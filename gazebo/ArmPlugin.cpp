@@ -44,6 +44,7 @@
 #define BATCH_SIZE 		32
 #define USE_LSTM 		true
 #define LSTM_SIZE 		256
+#define alpha 			0.3f
 
 
 // TODO - Define Reward Parameters
@@ -577,6 +578,7 @@ namespace gazebo
 
 			// get the bounding box for the gripper		
 			const math::Box& gripBBox = gripper->GetBoundingBox();
+
 			// Ground Threshold
 			const float groundContact = 0.05f;
 			
@@ -597,10 +599,10 @@ namespace gazebo
 
 				if( episodeFrames > 1 )
 				{
-					const float alpha 	= 0.3;
 					const float distDelta  	= lastGoalDistance - distGoal;
-					avgGoalDelta  		= (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
-					rewardHistory 		= avgGoalDelta * REWARD_MULT;
+					avgGoalDelta  			= (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
+					rewardHistory 			= avgGoalDelta * REWARD_MULT;
+					printf("Interim Reward %f", rewardHistory);
 					newReward     		= true;	
 				}
 
@@ -636,10 +638,11 @@ namespace gazebo
 				printf("Current Accuracy:  %0.4f (%03u of %03u)  (reward=%+0.2f %s)\n", float(successfulGrabs)/float(totalRuns), successfulGrabs, totalRuns, rewardHistory, (rewardHistory >= REWARD_WIN ? "WIN" : "LOSS"));
 
 
-				for( uint32_t n=0; n < DOF; n++ )
+				for( uint32_t n=0; n < DOF; n++ ) 
+				{
 					ref[n] = 0.0f;
-				for( uint32_t n=0; n < DOF; n++ )
 					vel[n] = 0.0f;
+				}
 			}
 		}
 	}
