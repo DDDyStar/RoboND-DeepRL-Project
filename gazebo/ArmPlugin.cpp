@@ -39,11 +39,11 @@
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2
 #define OPTIMIZER 		"RMSprop"
-#define LEARNING_RATE 	0.4f
+#define LEARNING_RATE 	0.2f
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32
 #define USE_LSTM 		true
-#define LSTM_SIZE 		512
+#define LSTM_SIZE 		256
 
 
 // TODO - Define Reward Parameters
@@ -113,8 +113,8 @@ namespace gazebo
 		for( uint32_t n=0; n < DOF; n++ )
 			resetPos[n] = 0.0f;
 
-		// set the arm centered forward
-		resetPos[1] = 0.25;
+		// set the arm forward
+		resetPos[1] = 1.0f;
 
 		// set the initial positions and velocities
 		for( uint32_t n=0; n < DOF; n++ )
