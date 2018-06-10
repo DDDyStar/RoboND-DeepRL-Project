@@ -51,7 +51,7 @@
 
 #define REWARD_WIN  	300.0f
 #define REWARD_LOSS 	-300.0f
-#define REWARD_MULT 	-25.0f
+#define REWARD_MULT 	25.0f
 
 // Define Object Names
 #define WORLD_NAME 		"arm_world"
@@ -600,9 +600,9 @@ namespace gazebo
 				if( episodeFrames > 1 )
 				{
 					const float distDelta  	= lastGoalDistance - distGoal;
-					avgGoalDelta  			= (avgGoalDelta * alpha) + (distGoal * (1.0 - alpha));
-					rewardHistory 			= avgGoalDelta * REWARD_MULT;
-					//printf("distGoal %f \n", distGoal);
+					avgGoalDelta  			= (avgGoalDelta * alpha) + (distDelta * (1.0 - alpha));
+					rewardHistory 			= (avgGoalDelta) * REWARD_MULT;
+					printf("Reward %f \n", rewardHistory);
 					newReward     		= true;	
 				}
 
