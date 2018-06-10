@@ -83,18 +83,7 @@ namespace gazebo
 	//*********************************************************************************************************************************************************
 	ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()), collisionNode(new gazebo::transport::Node())
 	{
-		if (DEBUG){printf("ArmPlugin::ArmPlugin() Constructor\n");}
-
-		for( uint32_t n=0; n < DOF; n++ )
-			resetPos[n] = 0.0f;
-
-		resetPos[1] = 0.25;
-
-		for( uint32_t n=0; n < DOF; n++ )
-		{
-			ref[n] = resetPos[n]; //JOINT_MIN;
-			vel[n] = 0.0f;
-		}
+		if (DEBUG){printf("[DEBUG] ArmPlugin::ArmPlugin() Constructor\n");}
 
 		agent 	       	 = NULL;
 		inputState       = NULL;
@@ -119,6 +108,20 @@ namespace gazebo
 		avgGoalDelta     = 0.0f;
 		successfulGrabs = 0;
 		totalRuns       = 0;
+
+		// set the default reset position for all joint
+		for( uint32_t n=0; n < DOF; n++ )
+			resetPos[n] = 0.0f;
+
+		// set the arm centered forward
+		resetPos[1] = 0.25;
+
+		// set the initial positions and velocities
+		for( uint32_t n=0; n < DOF; n++ )
+		{
+			ref[n] = resetPos[n]; //JOINT_MIN;
+			vel[n] = 0.0f;
+		}
 	}
 
 	//*********************************************************************************************************************************************************
@@ -128,6 +131,12 @@ namespace gazebo
 	{
 		if (DEBUG) {printf("[DEBUG] ArmPlugin::Load('%s')\n", _parent->GetName().c_str());}
 
+		// Create DQN agent
+		if( !createAgent() ){
+			print("Error creatings DQN Agent\n");
+			return;
+		}
+
 		// Store the pointer to the model
 		this->model = _parent;
 		this->j2_controller = new physics::JointController(model);
@@ -135,12 +144,12 @@ namespace gazebo
 		// Create our node for camera communication
 		cameraNode->Init();
 		// TODO - Subscribe to camera topic
-		gazebo::transport::SubscriberPtr cameraSub = cameraNode->Subscribe("/gazebo/" WORLD_NAME "/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
+		cameraSub = cameraNode->Subscribe("/gazebo/" WORLD_NAME "/camera/link/camera/image", &ArmPlugin::onCameraMsg, this);
 
 		// Create our node for collision detection
 		collisionNode->Init();
 		// TODO - Subscribe to prop collision topic
-		gazebo::transport::SubscriberPtr collisionSub = collisionNode->Subscribe("/gazebo/" WORLD_NAME "/" PROP_NAME "/link/my_contact", &ArmPlugin::onCollisionMsg, this);
+		collisionSub = collisionNode->Subscribe("/gazebo/" WORLD_NAME "/" PROP_NAME "/link/my_contact", &ArmPlugin::onCollisionMsg, this);
 
 		// Listen to the update event. This event is broadcast every simulation iteration.
 		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ArmPlugin::OnUpdate, this, _1));
