@@ -28,7 +28,7 @@ Next sections will explain in details how the required tasks were achieved.
 
 Deep Q-Network (DQN) output is usually mapped to a particular action, which, for this project, is the control of each joint for the simulated robotic arm. Control of the joint movements can be through velocity, position, or a mix of both. In case of this project position control approach was selected.
 
-Reward system was designed to train the robot to have any part of the robot arm touch the object of interest in one attempt then have the gripper base of the robot arm touch the object in a second attempt. designed reward system is as described in below \ref{fig:1}. Each episode is limited to a certain number of attempts, penalty will be issued if maximum length of the episode was reached without winning. a penalty will be issued and episode will be ended if robot arm touched ground. interim reward or interim penalty will be issued while robot arm is moving based on the distance from the object of interest. when collision happens with object a win reward is issued and episode is ended.
+Reward system was designed to train the robot to have any part of the robot arm touch the object of interest in one attempt then have the gripper base of the robot arm touch the object in a second attempt. designed reward system is as described in below figure 1. Each episode is limited to a certain number of attempts, penalty will be issued if maximum length of the episode was reached without winning. a penalty will be issued and episode will be ended if robot arm touched ground. interim reward or interim penalty will be issued while robot arm is moving based on the distance from the object of interest. when collision happens with object a win reward is issued and episode is ended.
 
 ### Reward System flowchart
 
@@ -46,16 +46,23 @@ Then interim reward is calculated based on the Average Goal Delta.
 
 Following parameters were adjusted before it was possible to get any good results from the DQN agent.
 
-\begin{itemize}
-\item \textbf{INPUT\_WIDTH x INPUT\_HEIGHT} : every camera frame, at every simulation iteration, is fed into the DQN agent then the agent makes a prediction and carries out an appropriate action. Size of the input or the dimension of the camera frame is decided by these two parameters. Bigger frame size will require both more memory and more computing power. 512x512 did not work well for example and caused memory related errors. 64x64 was fine and it did not cause issues or negative impact on accuracy.\newline
-\item \textbf{NUM\_ACTIONS} : based on the particular application, number of actions should be decided, in case of this project there are two actions per robot joint (increase or decrease either the joint velocity or the joint position), total number of joints is DOF (degrees of freedom) so the total number of actions for the robot will be 2 x DOF = 6. \newline
-\item \textbf{OPTIMIZER} : There are many variations of stochastic gradient descent: Adam, RMSProp, Adagrad, etc. All let you set the learning rate. in this project RMSProp and Adam were tested and it produced similar results.\newline
-\item \textbf{LEARNING\_RATE} : This parameter tells the optimizer how far to move the weights in the direction of the gradient for a batch. If the learning rate is low, then training is more reliable, but optimization will take a lot of time because steps towards the minimum of the loss function are tiny. If the learning rate is high, then training may not converge or even diverge. Weight changes can be so big that the optimizer overshoots the minimum and makes the loss worse. 0.3 was worse than 0.2, 0.1 was too slow to converge.\newline
-\item \textbf{REPLAY\_MEMORY} : A cyclic buffer that stores the transitions that the DQN agent observes for later reuse by sampling from it randomly. the transitions that build up a batch are decorrelated. It has been shown that this greatly stabilizes and improves the DQN training procedure.\newline
-\item \textbf{BATCH\_SIZE} : batch size * number of iterations = number of training examples, the bigger batch size the less number of iterations will be required but it will mean more memory and computing is required.\newline
-\item \textbf{USE\_LSTM} : Enabling the (long Short Term Memory LSTM) as part of DQN network will allow training the network by taking into consideration multiple past frames from the camera sensor instead of a single frame. This will much improve the accuracy of learning\newline
-\item \textbf{LSTM\_SIZE} : Size of each LSTM cell, the bigger the size the more computing power will be required.\newline
-\end{itemize}
+
+* **INPUT_WIDTH x INPUT_HEIGHT** : every camera frame, at every simulation iteration, is fed into the DQN agent then the agent makes a prediction and carries out an appropriate action. Size of the input or the dimension of the camera frame is decided by these two parameters. Bigger frame size will require both more memory and more computing power. 512x512 did not work well for example and caused memory related errors. 64x64 was fine and it did not cause issues or negative impact on accuracy.
+
+* **NUM_ACTIONS** : based on the particular application, number of actions should be decided, in case of this project there are two actions per robot joint (increase or decrease either the joint velocity or the joint position), total number of joints is DOF (degrees of freedom) so the total number of actions for the robot will be 2 x DOF = 6.
+
+* **OPTIMIZER** : There are many variations of stochastic gradient descent: Adam, RMSProp, Adagrad, etc. All let you set the learning rate. in this project RMSProp and Adam were tested and it produced similar results.
+
+* **LEARNING_RATE** : This parameter tells the optimizer how far to move the weights in the direction of the gradient for a batch. If the learning rate is low, then training is more reliable, but optimization will take a lot of time because steps towards the minimum of the loss function are tiny. If the learning rate is high, then training may not converge or even diverge. Weight changes can be so big that the optimizer overshoots the minimum and makes the loss worse. 0.3 was worse than 0.2, 0.1 was too slow to converge.
+
+* **REPLAY_MEMORY** : A cyclic buffer that stores the transitions that the DQN agent observes for later reuse by sampling from it randomly. the transitions that build up a batch are decorrelated. It has been shown that this greatly stabilizes and improves the DQN training procedure.
+
+* **BATCH_SIZE** : batch size * number of iterations = number of training examples, the bigger batch size the less number of iterations will be required but it will mean more memory and computing is required.
+
+* **USE_LSTM** : Enabling the (long Short Term Memory LSTM) as part of DQN network will allow training the network by taking into consideration multiple past frames from the camera sensor instead of a single frame. This will much improve the accuracy of learning.
+
+* **LSTM_SIZE** : Size of each LSTM cell, the bigger the size the more computing power will be required.
+
 
 Following reward related parameters were also adjusted to fine tune the rewarding system:
 
