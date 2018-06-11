@@ -44,7 +44,6 @@
 #define BATCH_SIZE 		32			// bigger size will require more computing power.
 #define USE_LSTM 		true		
 #define LSTM_SIZE 		256
-#define alpha 			0.3f
 
 
 // TODO - Define Reward Parameters
@@ -52,6 +51,7 @@
 #define REWARD_WIN  	300.0f
 #define REWARD_LOSS 	-300.0f
 #define REWARD_MULT 	200.0f
+#define alpha 			0.3f
 
 // Define Object Names
 #define WORLD_NAME 		"arm_world"
