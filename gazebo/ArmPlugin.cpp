@@ -199,8 +199,7 @@ namespace gazebo
 	void ArmPlugin::onCameraMsg(ConstImageStampedPtr &_msg)
 	{
 		// don't process the image if the agent hasn't been created yet
-		if( !agent )
-			return;
+		if( !agent ) return;
 
 		// check the validity of the message contents
 		if( !_msg )
