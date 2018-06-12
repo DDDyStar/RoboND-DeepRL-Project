@@ -39,7 +39,7 @@
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2		// Each joint action is either decreas or increas. DOF is number of joints
 #define OPTIMIZER 		"RMSprop"	// RMSprop, Adam, AdaGrad, None.
-#define LEARNING_RATE 	0.01f		// Smaller number will slow learning but better minimize error 
+#define LEARNING_RATE 	0.005f		// Smaller number will slow learning but better minimize error 
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32			// bigger size will require more computing power.
 #define USE_LSTM 		true		
@@ -275,7 +275,7 @@ namespace gazebo
 			else
 			{
 				// no collision with required target penalty
-				rewardHistory = REWARD_LOSS * 0.3f; //used 0.1 for Task 2
+				rewardHistory = REWARD_LOSS * 0.1f;
 				newReward  = true;
 				endEpisode = false;
 			}
