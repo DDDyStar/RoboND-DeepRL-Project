@@ -62,8 +62,8 @@
 #define COLLISION_FILTER "ground_plane::link::collision"
 #define COLLISION_ITEM   "tube::tube_link::tube_collision"
 
-#define COLLISION_POINT  "arm::link2::collision2"				// Task 1
-//#define COLLISION_POINT  "arm::gripperbase::gripper_link"		// Task 2
+#define COLLISION_POINT1  "arm::link2::collision2"				// Task 1
+#define COLLISION_POINT2  "arm::gripperbase::gripper_link"		// Task 2
 
 // Animation Steps
 #define ANIMATION_STEPS 1000
@@ -259,13 +259,12 @@ namespace gazebo
 			if( strcmp(contacts->contact(i).collision2().c_str(), COLLISION_FILTER) == 0 )
 				continue;
 
-			//if(DEBUG){
-				std::cout << "Collision between[" << contacts->contact(i).collision1()
-					<< "] and [" << contacts->contact(i).collision2() << "]\n";
-			//}
+			if(DEBUG){std::cout << "Collision between[" << contacts->contact(i).collision1() << "] and ["
+				                                        << contacts->contact(i).collision2() << "]\n";}
 
 			// TODO - Check if there is collision between the arm and object, then issue learning reward
-			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM) == 0))
+			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM  ) == 0) && 
+				(strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT1) == 0))  // Change to COLLISION_POINT2 for Task 2
 			{
 				// collision reward
 				rewardHistory = REWARD_WIN;
