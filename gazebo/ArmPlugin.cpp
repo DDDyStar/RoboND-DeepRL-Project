@@ -59,11 +59,11 @@
 #define GRIP_NAME  		"gripper_middle"
 
 // Define Collision Parameters
-#define COLLISION_FILTER "ground_plane::link::collision"
-#define COLLISION_ITEM   "tube::tube_link::tube_collision"
+#define COLLISION_FILTER "ground_plane::link::collision"		// To detect ground collision
+#define COLLISION_ITEM   "tube::tube_link::tube_collision"		// Object of interest for collision in both Tasks 1 & 2
 
-#define COLLISION_POINT1  "arm::link2::collision2"				// Task 1
-#define COLLISION_POINT2  "arm::gripperbase::gripper_link"		// Task 2
+#define COLLISION_POINT1  "arm::link2::collision2"				// Used for Task 1
+#define COLLISION_POINT2  "arm::gripperbase::gripper_link"		// Used for Task 2
 
 // Animation Steps
 #define ANIMATION_STEPS 1000
@@ -256,6 +256,7 @@ namespace gazebo
 
 		for (unsigned int i = 0; i < contacts->contact_size(); ++i)
 		{
+			// exit if collision is with ground
 			if( strcmp(contacts->contact(i).collision2().c_str(), COLLISION_FILTER) == 0 )
 				continue;
 
