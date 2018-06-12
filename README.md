@@ -53,7 +53,7 @@ Following parameters were adjusted before it was possible to get any good result
 
 * **OPTIMIZER** : There are many variations of stochastic gradient descent: Adam, RMSProp, Adagrad, etc. All let you set the learning rate. in this project RMSProp and Adam were tested and it produced similar results.
 
-* **LEARNING_RATE** : This parameter tells the optimizer how far to move the weights in the direction of the gradient for a batch. If the learning rate is low, then training is more reliable, but optimization will take a lot of time because steps towards the minimum of the loss function are tiny. If the learning rate is high, then training may not converge or even diverge. Weight changes can be so big that the optimizer overshoots the minimum and makes the loss worse. 0.3 was worse than 0.2, 0.1 was too slow to converge.
+* **LEARNING_RATE** : This parameter tells the optimizer how far to move the weights in the direction of the gradient for a batch. If the learning rate is low, then training is more reliable, but optimization will take a lot of time because steps towards the minimum of the loss function are tiny. If the learning rate is high, then training may not converge or even diverge. Weight changes can be so big that the optimizer overshoots the minimum and makes the loss worse. for task 1, 0.3 was worse than 0.2, 0.1 was too slow to converge. For Task 2, 0.01 was required to reach the target accuracy.
 
 * **REPLAY_MEMORY** : A cyclic buffer that stores the transitions that the DQN agent observes for later reuse by sampling from it randomly. the transitions that build up a batch are decorrelated. It has been shown that this greatly stabilizes and improves the DQN training procedure.
 
@@ -82,7 +82,7 @@ Before fine tuning the hyper-parameters and setting the right reward system; DQN
 
 <p align="center"> <img src="./misc/arm-collision.png"> </p>
 
-During the test once the final tuned parameters were set, there was no need to re-tune the parameters after changing the objective from "arm touching the object" to "gripper base touching the object". DQN performance was excellent and stable to handle both cases.
+During the test once the final tuned parameters were set, there was no need to re-tune the parameters after changing the objective from "arm touching the object" to "gripper base touching the object". only LEARNING_RATE was changed to 0.01 and the DQN performance was excellent and stable to handle both cases.
 
 
 ### Results of Robot Grip touching the object
