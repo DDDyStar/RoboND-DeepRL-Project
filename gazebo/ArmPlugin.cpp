@@ -39,7 +39,7 @@
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2		// Each joint action is either decreas or increas. DOF is number of joints
 #define OPTIMIZER 		"RMSprop"	// RMSprop, Adam, AdaGrad, None.
-#define LEARNING_RATE 	0.2f		// Smaller number will slow learning but better minimize error 
+#define LEARNING_RATE 	0.01f		// Smaller number will slow learning but better minimize error 
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32			// bigger size will require more computing power.
 #define USE_LSTM 		true		
@@ -265,7 +265,7 @@ namespace gazebo
 
 			// TODO - Check if there is collision between the arm and object, then issue learning reward
 			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM  ) == 0) && 
-				(strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT1) == 0))  // Change to COLLISION_POINT2 for Task 2
+				(strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT2) == 0))  // Change to COLLISION_POINT2 for Task 2
 			{
 				// collision reward
 				rewardHistory = REWARD_WIN;
