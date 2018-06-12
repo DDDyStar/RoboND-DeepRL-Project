@@ -274,8 +274,8 @@ namespace gazebo
 			}
 			else
 			{
-				// no collision penalty
-				rewardHistory = REWARD_LOSS * 0.01f;
+				// no collision with required target penalty
+				rewardHistory = REWARD_LOSS * 0.1f;
 				newReward  = true;
 				endEpisode = false;
 			}
