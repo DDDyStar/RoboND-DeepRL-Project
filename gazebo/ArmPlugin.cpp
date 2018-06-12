@@ -264,7 +264,7 @@ namespace gazebo
 
 			// TODO - Check if there is collision between the arm and object, then issue learning reward
 			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM  ) == 0))
-				// && (strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT) == 0))  // add this to the if statment for Task 2 only
+				// && (strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT) == 0))  // add this to the "if" statment for Task 2 only
 			{
 				// collision reward
 				rewardHistory = REWARD_WIN;
