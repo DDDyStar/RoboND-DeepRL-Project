@@ -39,7 +39,7 @@
 #define INPUT_HEIGHT  	64
 #define NUM_ACTIONS		DOF*2		// Each joint action is either decreas or increas. DOF is number of joints
 #define OPTIMIZER 		"RMSprop"	// RMSprop, Adam, AdaGrad, None.
-#define LEARNING_RATE 	0.005f		// Smaller number will slow learning but better minimize error 
+#define LEARNING_RATE 	0.01f		// Smaller number will slow learning but better minimize error 
 #define REPLAY_MEMORY 	10000
 #define BATCH_SIZE 		32			// bigger size will require more computing power.
 #define USE_LSTM 		true		
@@ -62,8 +62,7 @@
 #define COLLISION_FILTER "ground_plane::link::collision"		// To detect ground collision
 #define COLLISION_ITEM   "tube::tube_link::tube_collision"		// Object of interest for collision in both Tasks 1 & 2
 
-#define COLLISION_POINT1  "arm::link2::collision2"				// Used for Task 1
-#define COLLISION_POINT2  "arm::gripperbase::gripper_link"		// Used for Task 2
+#define COLLISION_POINT  "arm::gripperbase::gripper_link"		// Used for Task 2
 
 // Animation Steps
 #define ANIMATION_STEPS 1000
@@ -264,8 +263,8 @@ namespace gazebo
 				                                        << contacts->contact(i).collision2() << "]\n";}
 
 			// TODO - Check if there is collision between the arm and object, then issue learning reward
-			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM  ) == 0) && 
-				(strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT1) == 0))  // Change to COLLISION_POINT2 for Task 2
+			if ((strcmp(contacts->contact(i).collision1().c_str(), COLLISION_ITEM  ) == 0))
+				// && (strcmp(contacts->contact(i).collision2().c_str(), COLLISION_POINT) == 0))  // add this to the if statment for Task 2 only
 			{
 				// collision reward
 				rewardHistory = REWARD_WIN;
@@ -572,12 +571,15 @@ namespace gazebo
 
 			// get gripper link name
 			physics::LinkPtr gripper  = model->GetLink(GRIP_NAME);
-
+		
 			if( !gripper )
 			{
 				printf("ArmPlugin - failed to find Gripper '%s'\n", GRIP_NAME);
 				return;
 			}
+
+
+
 
 			// get the bounding box for the gripper		
 			const math::Box& gripBBox = gripper->GetBoundingBox();
